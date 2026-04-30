@@ -2,737 +2,237 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Karma Tara Residency - Daily Purchase V3.3 Bill OCR Accounting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karma Tara Residency - Daily Purchase V2.3 Login Flow Fixed</title>
   <style>
-    :root {
-      --bg: #f0f2f5;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --line: #e5e7eb;
-      --brand: #1f6b46;
-      --brand-dark: #155337;
-      --brand-light: #edf7f1;
-      --accent: #d99100;
-      --danger: #dc2626;
-      --danger-light: #fee2e2;
-      --warning-light: #fff7ed;
-      --shadow: 0 4px 12px rgba(0,0,0,0.08);
-      --radius: 16px;
-    }
-    * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-    body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 40px; }
-    .hidden { display: none !important; }
-    .wrap { max-width: 680px; margin: 0 auto; padding: 16px; }
-    .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; border: 1px solid var(--line); }
-    .header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; }
-    h1 { font-size: 1.25rem; margin: 0; color: var(--brand); }
-    h2 { font-size: 1rem; margin: 0 0 12px; border-left: 4px solid var(--brand); padding-left: 10px; }
-    .muted { color: var(--muted); font-size: .85rem; }
-    label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; color: var(--muted); }
-    input, select, textarea {
-      width: 100%; padding: 13px; border: 1px solid var(--line); border-radius: 12px;
-      font-size: 1rem; margin-bottom: 12px; transition: border-color 0.2s; background: #fff;
-    }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(31,107,70,.10); }
-    textarea { min-height: 76px; resize: vertical; }
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .btn {
-      border: none; border-radius: 12px; padding: 14px; font-weight: 800; cursor: pointer;
-      width: 100%; transition: opacity 0.2s, transform 0.1s, border-color .2s; font-size: .95rem;
-    }
-    .btn:active { transform: scale(0.98); }
-    .btn:disabled { opacity: .45; cursor: not-allowed; }
-    .btn-primary { background: var(--brand); color: white; }
-    .btn-primary:hover { background: var(--brand-dark); }
-    .btn-outline { background: white; border: 1px solid var(--line); color: var(--text); }
-    .btn-whatsapp { background: #25D366; color: white; }
-    .btn-danger { background: var(--danger-light); color: var(--danger); }
-    .btn-accent { background: #fff7e6; color: #92400e; border: 1px solid #fed7aa; }
-    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-    .pill { width: auto; padding: 9px 11px; border-radius: 999px; font-size: .8rem; border: 1px solid var(--line); background: #fff; color: var(--text); }
-    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
-    .stat-box { background: var(--brand-light); padding: 10px 8px; border-radius: 12px; }
-    .stat-val { display: block; font-size: 1.05rem; font-weight: 900; color: var(--brand); word-break: break-word; }
-    .stat-lab { font-size: 0.62rem; text-transform: uppercase; color: var(--muted); letter-spacing: .03em; }
-    .entry { border-bottom: 1px solid var(--line); padding: 13px 0; }
-    .entry:last-child { border: none; }
-    .entry-top { display: flex; justify-content: space-between; gap: 10px; font-weight: 800; }
-    .entry-sub { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
-    .entry-note { font-size: .85rem; margin-top: 6px; }
-    .entry-img { width: 68px; height: 68px; border-radius: 10px; object-fit: cover; margin-top: 9px; border: 1px solid var(--line); }
-    .entry-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-    .mini-btn { padding: 9px; font-size: .8rem; border-radius: 10px; }
-    .scan-preview { position: relative; margin-top: 10px; text-align: center; }
-    .scan-preview img { max-width: 100%; max-height: 280px; border-radius: 12px; border: 1px solid var(--line); object-fit: contain; }
-    #ocrStatus { font-size: 0.82rem; color: var(--brand); margin: 8px 0; font-style: italic; }
-    .extract-panel { background: #f8fafc; border: 1px solid var(--line); border-radius: 14px; padding: 12px; margin: 12px 0; }
-    .extract-head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; }
-    .extract-head strong { color: var(--brand); font-size:.92rem; }
-    .ocr-table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:white; }
-    .ocr-table { width:100%; border-collapse:collapse; min-width:560px; font-size:.82rem; }
-    .ocr-table th, .ocr-table td { border-bottom:1px solid var(--line); padding:7px; text-align:left; vertical-align:middle; }
-    .ocr-table th { background:var(--brand-light); color:var(--brand); font-size:.72rem; text-transform:uppercase; }
-    .ocr-table input, .ocr-table select { margin:0; padding:8px; border-radius:9px; font-size:.82rem; }
-    .ocr-small { font-size:.78rem; color:var(--muted); margin-top:8px; }
-
-    .notice { background: var(--warning-light); border: 1px solid #fed7aa; color: #92400e; padding: 10px 12px; border-radius: 12px; font-size: .85rem; margin-bottom: 12px; }
-    .selected-bill { border-color: var(--brand) !important; background: var(--brand-light) !important; color: var(--brand) !important; }
-    .footer-note { text-align:center; color:var(--muted); font-size:.72rem; margin-top: 18px; }
-    @media (max-width: 560px) {
-      .wrap { padding: 12px; }
-      .card { padding: 16px; }
-      .grid2, .grid3 { grid-template-columns: 1fr; gap: 0; }
-      .stats-row { grid-template-columns: 1fr 1fr; }
-      .header { align-items: flex-start; }
-      h1 { font-size: 1.12rem; }
-    }
+    :root{--bg:#f6f4ef;--card:#fff;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb;--brand:#1f6b46;--brand2:#edf7f1;--accent:#d99100;--shadow:0 10px 24px rgba(0,0,0,.07);--radius:18px}
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.35}.hidden{display:none!important}.wrap{max-width:760px;margin:0 auto;padding:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:15px;margin-bottom:14px}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.brand h1{font-size:1.18rem;margin:0;color:#244333}.brand .sub{font-size:.82rem;color:var(--muted);margin-top:4px}textarea{width:100%;border:1px solid #d7ddd9;border-radius:14px;background:#fff;padding:12px 13px;font-size:.9rem;min-height:96px;resize:vertical}.scan-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px}.scan-note{background:#fff7ed;border:1px solid #fed7aa;color:#92400e;border-radius:14px;padding:10px;font-size:.82rem}.ocr-status{font-size:.82rem;color:#28543c;background:#edf7f1;border-radius:14px;padding:10px}.suggest-box{border:1px solid #dce3df;border-radius:14px;background:#fbfbfa;padding:10px}.suggest-line{font-size:.84rem;color:#374151;margin:3px 0}.preview-large{margin-top:8px;text-align:center}.preview-large img{max-width:100%;max-height:280px;object-fit:contain;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:6px}.user-pill{font-size:.78rem;background:var(--brand2);color:#28543c;border-radius:999px;padding:7px 10px;margin-bottom:8px;text-align:center}.logout{background:#edf7f1;color:#28543c;border:0;border-radius:14px;padding:10px 16px;font-weight:700}.login-wrap{min-height:100vh;display:grid;place-items:center;padding:18px}.login-card{width:100%;max-width:420px;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:22px}.login-card h2{margin:0 0 6px;text-align:center;color:#244333}.login-card p{margin:0 0 16px;text-align:center;color:var(--muted);font-size:.92rem}h2{font-size:1rem;margin:0 0 12px;color:#253529}h3{font-size:.92rem;margin:10px 0 8px}label{display:block;margin-bottom:5px;color:#374151;font-size:.82rem;font-weight:700}input,select{width:100%;border:1px solid #d7ddd9;border-radius:14px;background:#fff;padding:12px 13px;font-size:.95rem}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{border:1px solid var(--line);border-radius:14px;padding:12px 8px;background:#fafafa}.stat span{display:block;color:var(--muted);font-size:.72rem}.stat strong{display:block;color:#173b29;font-size:1.25rem;margin-top:4px}.stack{display:grid;gap:10px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.btn{border:0;border-radius:14px;padding:13px 14px;font-weight:800;font-size:.95rem;cursor:pointer}.btn:active{transform:scale(.985)}.btn-primary{background:var(--brand);color:#fff}.btn-soft{background:#f8fafc;color:#1f2937;border:1px solid var(--line)}.btn-whatsapp{background:#168a49;color:#fff}.btn-danger{background:#df8a00;color:#fff}.section-note{color:var(--muted);font-size:.85rem}.entry{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff;margin-top:8px}.entry-head{display:flex;justify-content:space-between;gap:10px}.pill{display:inline-block;border-radius:999px;padding:5px 9px;font-size:.78rem;font-weight:800}.pill.purchase{background:#eef2ff;color:#3730a3}.muted{color:var(--muted);font-size:.86rem}.tiny{font-size:.75rem}.report-box{border:1px dashed #cfd8d3;border-radius:14px;padding:12px;background:#fff;white-space:pre-wrap;font-family:Arial,Helvetica,sans-serif;font-size:.85rem;min-height:130px}.photo-preview{display:flex;align-items:center;gap:10px;border:1px dashed #d7ddd9;border-radius:14px;padding:10px;background:#fbfbfa}.photo-preview img{width:64px;height:64px;object-fit:contain;background:#fff;border-radius:10px;border:1px solid var(--line);padding:3px}.mini-total{margin-top:8px;padding:10px;border-radius:14px;background:#fbfbfa;border:1px solid var(--line);font-weight:800;color:#173b29}.file-hidden{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}.photo-action{width:100%;display:flex;align-items:center;justify-content:center;gap:8px}.excel-note{font-size:.76rem;color:var(--muted);margin-top:6px;text-align:center}.bill-type-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.bill-type{background:#fff;border:2px solid #dce3df;color:#173b29}.bill-type.active{background:#edf7f1;border-color:#1f6b46;color:#145b37}.bill-type.tax.active{background:#fff7ed;border-color:#d99100;color:#92400e}.group-title{margin:12px 0 6px;font-weight:900;color:#244333}.admin-only{display:none}.admin-on .admin-only{display:block}.pdf-page{font-family:Arial,Helvetica,sans-serif;color:#111827;padding:20px}.pdf-page h1{font-size:20px;margin:0 0 4px;color:#244333}.pdf-section{margin-top:18px;border-top:2px solid #e5e7eb;padding-top:10px}.pdf-item{break-inside:avoid;border:1px solid #e5e7eb;border-radius:10px;padding:10px;margin:8px 0}.pdf-photo{max-width:260px;max-height:260px;object-fit:contain;background:white;border:1px solid #ddd;margin-top:8px}.pdf-table{width:100%;border-collapse:collapse;margin-top:8px}.pdf-table th,.pdf-table td{border:1px solid #ddd;padding:6px;font-size:12px;text-align:left}@media print{body.print-mode{background:white}.no-print{display:none!important}}@media(max-width:520px){.wrap{padding:10px}.stats{grid-template-columns:repeat(3,1fr);gap:6px}.stat{padding:9px 4px}.stat strong{font-size:1.08rem}.stat span{font-size:.65rem}.grid2,.row{grid-template-columns:1fr;display:grid}.btn{padding:12px 10px}.card{padding:13px}.brand h1{font-size:1.08rem}}
   </style>
 </head>
 <body>
-
-<div id="loginSection" class="wrap">
-  <div class="card" style="margin-top: 50px;">
-    <h1 style="text-align:center; margin-bottom: 6px;">KTR Daily Purchase</h1>
-    <p class="muted" style="text-align:center; margin-top:0; margin-bottom:20px;">Bill OCR Accounting V3.3</p>
-    <label>Staff Member</label>
-    <select id="loginStaff"></select>
-    <label>4-Digit PIN</label>
-    <input type="password" id="loginPin" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off">
-    <button class="btn btn-primary" onclick="handleLogin()">Login</button>
-    <p id="loginError" style="color: var(--danger); font-size: 0.85rem; text-align: center;"></p>
-  </div>
-</div>
-
-<div id="appSection" class="wrap hidden">
-  <div class="header">
-    <div>
-      <h1 id="userGreeting">Namaste</h1>
-      <small id="currentDateTime" style="color: var(--muted)"></small>
-    </div>
-    <button class="btn btn-outline" style="width: auto; padding: 8px 15px;" onclick="handleLogout()">Logout</button>
-  </div>
-
-  <div class="card">
-    <div class="stats-row">
-      <div class="stat-box"><span class="stat-lab">Count</span><span class="stat-val" id="statCount">0</span></div>
-      <div class="stat-box"><span class="stat-lab">Tax Bill</span><span class="stat-val" id="statTax">0</span></div>
-      <div class="stat-box"><span class="stat-lab">Local Bill</span><span class="stat-val" id="statLocal">0</span></div>
-      <div class="stat-box"><span class="stat-lab">Total</span><span class="stat-val" id="statTotal">0</span></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2 id="formTitle">New Purchase</h2>
-    <input type="hidden" id="editId" value="">
-
-    <div class="grid2">
-      <div><label>Store Name *</label><input id="storeName" placeholder="Ex: Bhatbhateni"></div>
-      <div><label>Category *</label><select id="category"></select></div>
-    </div>
-
-    <label>Quick Particular</label>
-    <div class="pill-row" id="quickParticulars"></div>
-
-    <div class="grid2">
-      <div><label>Particular / Details *</label><input id="particular" placeholder="Ex: Vegetables, rice, plumber"></div>
-      <div><label>Amount (Rs) *</label><input type="number" id="amount" placeholder="0.00" min="0" step="0.01"></div>
-    </div>
-
-    <label>Bill Photo</label>
-    <input type="file" id="fileInput" accept="image/*" capture="environment" class="hidden" onchange="processFile(event)">
-    <div class="grid2" style="margin-bottom: 12px;">
-      <button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">📷 Take Photo</button>
-      <button class="btn btn-outline" id="ocrBtn" onclick="runOCR()" disabled>🔍 Read Bill</button>
-    </div>
-
-    <div id="scanPreview" class="scan-preview hidden">
-      <img id="previewImg" src="" alt="Bill preview">
-      <div id="ocrStatus"></div>
-    </div>
-
-    <div id="extractPanel" class="extract-panel hidden">
-      <div class="extract-head">
-        <strong>Extracted Bill Rows</strong>
-        <button class="btn btn-outline mini-btn" style="width:auto" onclick="clearExtractedRows()">Clear</button>
+  <div id="loginScreen" class="login-wrap">
+    <div class="login-card">
+      <h2>Daily Purchase Login</h2>
+      <p>Karma Tara Residency purchase tracking with smart bill scan</p>
+      <div class="stack">
+        <div><label for="loginStaff">Staff Name</label><select id="loginStaff"><option value="Sonam">Sonam</option><option value="Amar">Amar</option><option value="Kul Bdr.">Kul Bdr.</option><option value="Raman">Raman</option></select></div>
+        <div><label for="loginPin">4-digit PIN</label><input id="loginPin" type="password" maxlength="4" inputmode="numeric" placeholder="Enter PIN" /></div>
+        <button class="btn btn-primary" id="loginBtn" type="button">Login</button>
+        <div id="loginMsg" class="muted" style="text-align:center"></div>
       </div>
-      <div class="ocr-table-wrap">
-        <table class="ocr-table">
-          <thead>
-            <tr><th>Date</th><th>Item</th><th>Category</th><th>Amount</th><th></th></tr>
-          </thead>
-          <tbody id="extractedRowsBody"></tbody>
-        </table>
+    </div>
+  </div>
+
+  <div id="appScreen" class="hidden">
+    <div class="wrap" id="appWrap">
+      <div class="card top">
+        <div class="brand"><h1>Karma Tara Residency</h1><div class="sub">Daily Purchase · <span id="dateLabel"></span></div></div>
+        <div><div class="user-pill" id="userPill">Staff</div><button class="logout" id="logoutBtn" type="button">Logout</button></div>
       </div>
-      <div class="grid2" style="margin-top:10px;">
-        <button class="btn btn-primary" onclick="addExtractedRows()">Add All Extracted Rows</button>
-        <button class="btn btn-accent" onclick="exportExtractedCSV()">Export Extracted CSV</button>
+
+      <div class="card">
+        <h2>Today Purchase Dashboard</h2>
+        <div class="stats">
+          <div class="stat"><span>Entries</span><strong id="statCount">0</strong></div>
+          <div class="stat"><span>Tax Bill Rs.</span><strong id="statTax">0</strong></div>
+          <div class="stat"><span>Local Bill Rs.</span><strong id="statLocal">0</strong></div>
+        </div>
       </div>
-      <div class="ocr-small">Please review item, category, and amount before adding. The app removes common duplicate lines, but receipt OCR still needs human checking.</div>
-    </div>
 
-    <div class="notice">OCR is only a helper. Please confirm the amount and extracted rows before saving, because invoice, VAT, phone, or serial numbers can be mistaken as totals.</div>
+      <div class="card admin-only">
+        <h2>Admin Tools</h2>
+        <div class="section-note">Only visible when Sonam logs in as Admin.</div>
+        <h3>Add Staff</h3>
+        <div class="grid2"><div><label>Staff Name</label><input id="newStaffName" placeholder="Enter staff name" /></div><div><label>4-digit PIN</label><input id="newStaffPin" maxlength="4" inputmode="numeric" placeholder="Enter PIN" /></div></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:10px" id="addStaffBtn">+ Add Staff</button>
+        <h3>Change Staff PIN</h3>
+        <div class="grid2"><div><label>Select Staff</label><select id="pinStaff"></select></div><div><label>New 4-digit PIN</label><input id="changePin" maxlength="4" inputmode="numeric" placeholder="New PIN" /></div></div>
+        <button class="btn btn-soft" style="width:100%;margin-top:10px" id="updatePinBtn">Update PIN</button>
+        <h3>Current Staff List</h3>
+        <div id="staffList" class="report-box" style="min-height:auto"></div>
+      </div>
 
-    <div class="grid2">
-      <button class="btn btn-outline selected-bill" id="btnLocal" onclick="setBillType('Local Bill')">Local Bill</button>
-      <button class="btn btn-outline" id="btnTax" onclick="setBillType('Tax Bill')">Tax Bill</button>
-    </div>
-    <div class="grid2" style="margin-top: 15px;">
-      <button class="btn btn-primary" id="saveBtn" onclick="submitPurchase()">Add Purchase</button>
-      <button class="btn btn-outline hidden" id="cancelEditBtn" onclick="cancelEdit()">Cancel Edit</button>
-    </div>
-  </div>
-
-  <div class="card hidden" id="adminPanel">
-    <h2>Admin: Manage Staff & PINs</h2>
-    <div id="staffListDisplay" class="muted" style="margin-bottom: 12px;"></div>
-    <label>Add New Staff</label>
-    <div class="grid2">
-      <input id="newStaffName" placeholder="Staff Name">
-      <input id="newStaffPin" placeholder="4-Digit PIN" maxlength="4" inputmode="numeric">
-    </div>
-    <button class="btn btn-outline" style="margin-bottom: 15px;" onclick="addNewStaff()">+ Add Staff</button>
-    <label>Change Existing PIN</label>
-    <div class="grid2">
-      <select id="pinChangeStaff"></select>
-      <input id="newPinUpdate" placeholder="New PIN" maxlength="4" inputmode="numeric">
-    </div>
-    <button class="btn btn-outline" onclick="updateStaffPin()">Update PIN</button>
-  </div>
-
-  <div class="card">
-    <h2>Today's Purchase History</h2>
-    <div id="historyList"></div>
-  </div>
-
-  <div class="card">
-    <h2>Accounting Report</h2>
-    <div class="grid2">
-      <button class="btn btn-whatsapp" onclick="sendWhatsApp()">Send Detail to WhatsApp</button>
-      <button class="btn btn-accent" onclick="exportCSV()">Export CSV / Excel</button>
-    </div>
-    <button class="btn btn-danger" style="margin-top: 10px;" onclick="clearTodayData()">Clear Today's Data Only</button>
-  </div>
-
-  <div class="footer-note">Karma Tara Residency · Daily Purchase V3.3 Bill OCR Accounting</div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-<script>
-  const DB_NAME = "KTR_Purchase_DB";
-  const DB_VERSION = 1;
-  const STORE_NAME = "purchases";
-  const CATS = ['Select...','Kitchen','Water','Staff Meal','Electricity','Fuel','Supply','Cleaning','Maintenance','Transport','Other'];
-  const QUICK_PARTS = ['Vegetables','Rice','Gas','Water Jar','Cleaning Items','Plumbing','Electrical','Taxi','Staff Meal','Misc'];
-  const WHATSAPP_NUMBER = '9779808121644';
-
-  let db;
-  let currentUser = null;
-  let currentBillType = "Local Bill";
-  let tempImage = null;
-  let todayEntries = [];
-  let extractedRows = [];
-  let lastOcrText = "";
-
-  let staffData = JSON.parse(localStorage.getItem('ktr_staff_v3')) || {
-    "Sonam": {pin:"9999", admin:true},
-    "Amar": {pin:"1111", admin:false},
-    "Kul Bdr.": {pin:"2222", admin:false},
-    "Raman": {pin:"3333", admin:false}
-  };
-
-  function todayKey() {
-    const d = new Date();
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${y}-${m}-${day}`;
-  }
-
-  function formatDateTime(d = new Date()) {
-    return d.toLocaleString('en-NP', {
-      weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
-      hour: '2-digit', minute: '2-digit', hour12: true
-    });
-  }
-
-  function formatMoney(n) {
-    return Number(n || 0).toLocaleString('en-NP', { maximumFractionDigits: 2 });
-  }
-
-  function init() {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
-    request.onupgradeneeded = (e) => {
-      const database = e.target.result;
-      if (!database.objectStoreNames.contains(STORE_NAME)) {
-        database.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
-      }
-    };
-    request.onsuccess = (e) => {
-      db = e.target.result;
-      renderLoginList();
-      populateSelect('category', CATS);
-      renderQuickParticulars();
-      updateDateClock();
-      setInterval(updateDateClock, 30000);
-    };
-    request.onerror = () => alert('Database could not open. Please reload the page.');
-  }
-
-  function updateDateClock() {
-    document.getElementById('currentDateTime').innerText = formatDateTime();
-  }
-
-  function renderLoginList() {
-    const sel = document.getElementById('loginStaff');
-    sel.innerHTML = Object.keys(staffData).map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
-  }
-
-  function handleLogin() {
-    const user = document.getElementById('loginStaff').value;
-    const pin = document.getElementById('loginPin').value;
-    if (staffData[user] && staffData[user].pin === pin) {
-      currentUser = user;
-      document.getElementById('loginSection').classList.add('hidden');
-      document.getElementById('appSection').classList.remove('hidden');
-      document.getElementById('userGreeting').innerText = `Namaste, ${user}`;
-      if(staffData[user].admin === true) {
-        document.getElementById('adminPanel').classList.remove('hidden');
-        renderAdminTools();
-      }
-      refreshUI();
-    } else {
-      document.getElementById('loginError').innerText = "Incorrect PIN";
-    }
-  }
-
-  function handleLogout() { location.reload(); }
-
-  function renderAdminTools() {
-    const listDiv = document.getElementById('staffListDisplay');
-    const pinSel = document.getElementById('pinChangeStaff');
-    const staffNames = Object.keys(staffData);
-    listDiv.innerText = "Current Staff: " + staffNames.join(", ");
-    pinSel.innerHTML = staffNames.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
-    renderLoginList();
-  }
-
-  function addNewStaff() {
-    const name = document.getElementById('newStaffName').value.trim();
-    const pin = document.getElementById('newStaffPin').value.trim();
-    if(!name || !/^\d{4}$/.test(pin)) return alert("Enter valid name and 4-digit PIN");
-    if(staffData[name]) return alert("This staff name already exists.");
-    staffData[name] = {pin: pin, admin: false};
-    saveStaff();
-    alert("Staff Added");
-    document.getElementById('newStaffName').value = "";
-    document.getElementById('newStaffPin').value = "";
-    renderAdminTools();
-  }
-
-  function updateStaffPin() {
-    const name = document.getElementById('pinChangeStaff').value;
-    const pin = document.getElementById('newPinUpdate').value.trim();
-    if(!/^\d{4}$/.test(pin)) return alert("Enter 4-digit PIN");
-    staffData[name].pin = pin;
-    saveStaff();
-    alert("PIN Updated");
-    document.getElementById('newPinUpdate').value = "";
-  }
-
-  function saveStaff() { localStorage.setItem('ktr_staff_v3', JSON.stringify(staffData)); }
-
-  function setBillType(type) {
-    currentBillType = type;
-    document.getElementById('btnLocal').classList.toggle('selected-bill', type === "Local Bill");
-    document.getElementById('btnTax').classList.toggle('selected-bill', type === "Tax Bill");
-  }
-
-  function renderQuickParticulars() {
-    document.getElementById('quickParticulars').innerHTML = QUICK_PARTS.map(p =>
-      `<button type="button" class="pill" onclick="setParticular('${escapeAttr(p)}')">${escapeHtml(p)}</button>`
-    ).join('');
-  }
-
-  function setParticular(text) {
-    document.getElementById('particular').value = text;
-  }
-
-  async function processFile(e) {
-    const file = e.target.files[0];
-    if(!file) return;
-    try {
-      tempImage = await compressImage(file, 1200, 0.72);
-      document.getElementById('previewImg').src = tempImage;
-      document.getElementById('scanPreview').classList.remove('hidden');
-      document.getElementById('ocrBtn').disabled = false;
-      document.getElementById('ocrStatus').innerText = "Photo saved in compressed size for faster app performance.";
-    } catch(err) {
-      alert('Could not read image. Please try again.');
-    }
-  }
-
-  function compressImage(file, maxWidth = 1200, quality = 0.72) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          const ratio = Math.min(1, maxWidth / img.width);
-          const canvas = document.createElement('canvas');
-          canvas.width = Math.round(img.width * ratio);
-          canvas.height = Math.round(img.height * ratio);
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          resolve(canvas.toDataURL('image/jpeg', quality));
-        };
-        img.onerror = reject;
-        img.src = event.target.result;
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  async function runOCR() {
-    const status = document.getElementById('ocrStatus');
-    if(!tempImage) return;
-    status.innerText = "Reading bill details and extracting rows... please wait.";
-    clearExtractedRows(false);
-    try {
-      const result = await Tesseract.recognize(tempImage, 'eng');
-      lastOcrText = result.data.text || '';
-      const text = lastOcrText.toLowerCase();
-      const totalLine = text.split('\n').find(line => /(grand total|net total|total amount|total)/i.test(line));
-      let nums = [];
-      if(totalLine) nums = totalLine.match(/\d+[,.]?\d*(\.\d{1,2})?/g) || [];
-      if(!nums.length) nums = text.match(/\d+[,.]?\d*(\.\d{1,2})?/g) || [];
-      const cleaned = nums.map(v => Number(String(v).replace(/,/g,''))).filter(n => n > 0 && n < 1000000);
-      if(cleaned.length) {
-        document.getElementById('amount').value = Math.max(...cleaned).toFixed(2).replace(/\.00$/, '');
-      }
-
-      const rows = parseReceiptText(lastOcrText);
-      if(rows.length) {
-        extractedRows = rows;
-        renderExtractedRows();
-        status.innerText = `${rows.length} possible item row(s) extracted. Please review before adding.`;
-      } else if(cleaned.length) {
-        extractedRows = [{ date: todayKey(), item: 'Bill Total', category: document.getElementById('category').value !== 'Select...' ? document.getElementById('category').value : 'Other', amount: Math.max(...cleaned) }];
-        renderExtractedRows();
-        status.innerText = "Line items were unclear. A single Bill Total row was prepared for review.";
-      } else {
-        status.innerText = "Could not extract useful rows. Please enter manually.";
-      }
-    } catch (e) {
-      status.innerText = "OCR failed. Please enter manually.";
-    }
-  }
-
-  function parseReceiptText(raw) {
-    const ignored = /(vat|pan|bill no|invoice|tel|phone|address|date|time|cashier|subtotal|sub total|discount|change|cash|tender|balance|thank|total|grand|net amount|taxable|round|qty|quantity|rate)/i;
-    const lines = String(raw || '').split(/\n+/).map(l => l.replace(/[|]/g, ' ').replace(/\s+/g, ' ').trim()).filter(Boolean);
-    const rows = [];
-    const seen = new Set();
-    for (const line of lines) {
-      if (ignored.test(line)) continue;
-      const match = line.match(/^(.{2,}?)\s+(?:x?\d+\s+)?(?:rs\.?\s*)?(\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?|\d+(?:\.\d{1,2})?)$/i);
-      if(!match) continue;
-      let item = cleanItemName(match[1]);
-      let amount = Number(String(match[2]).replace(/,/g,''));
-      if(!item || !/[a-zA-Z]/.test(item) || amount <= 0 || amount > 200000) continue;
-      if(item.length < 2) continue;
-      const key = `${item.toLowerCase()}_${amount}`;
-      if(seen.has(key)) continue;
-      seen.add(key);
-      rows.push({ date: todayKey(), item, category: categorizeItem(item), amount });
-    }
-    return rows.slice(0, 25);
-  }
-
-  function cleanItemName(name) {
-    return String(name || '')
-      .replace(/^\d+\s*[).:-]?\s*/, '')
-      .replace(/\b(rs|nrs|qty|rate|amt|amount)\b/ig, '')
-      .replace(/[^a-zA-Z0-9 .,&/()-]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim();
-  }
-
-  function categorizeItem(item) {
-    const t = String(item || '').toLowerCase();
-    if(/rice|dal|oil|salt|sugar|tea|coffee|vegetable|veg|masala|flour|atta|egg|milk|bread|chicken|meat|fruit|onion|potato/.test(t)) return 'Kitchen';
-    if(/water|jar|mineral/.test(t)) return 'Water';
-    if(/staff|meal|khaja|lunch|dinner/.test(t)) return 'Staff Meal';
-    if(/fuel|petrol|diesel|gas|lpg/.test(t)) return 'Fuel';
-    if(/clean|soap|detergent|phenyl|broom|mop|tissue|toilet/.test(t)) return 'Cleaning';
-    if(/wire|bulb|electric|battery|switch|plug/.test(t)) return 'Electricity';
-    if(/pipe|plumb|repair|paint|cement|screw|tool|maintenance/.test(t)) return 'Maintenance';
-    if(/taxi|transport|delivery|tempo|bike/.test(t)) return 'Transport';
-    return 'Other';
-  }
-
-  function renderExtractedRows() {
-    const panel = document.getElementById('extractPanel');
-    const body = document.getElementById('extractedRowsBody');
-    if(!extractedRows.length) {
-      panel.classList.add('hidden');
-      body.innerHTML = '';
-      return;
-    }
-    panel.classList.remove('hidden');
-    body.innerHTML = extractedRows.map((row, idx) => {
-      const options = CATS
-        .filter(c => c !== 'Select...')
-        .map(c => '<option value="' + escapeAttr(c) + '"' + (c === row.category ? ' selected' : '') + '>' + escapeHtml(c) + '</option>')
-        .join('');
-      return '<tr data-idx="' + idx + '">' +
-        '<td><input value="' + escapeAttr(row.date || todayKey()) + '" data-field="date"></td>' +
-        '<td><input value="' + escapeAttr(row.item || '') + '" data-field="item"></td>' +
-        '<td><select data-field="category">' + options + '</select></td>' +
-        '<td><input type="number" min="0" step="0.01" value="' + escapeAttr(row.amount || '') + '" data-field="amount"></td>' +
-        '<td><button class="btn btn-danger mini-btn" onclick="removeExtractedRow(' + idx + ')">Remove</button></td>' +
-      '</tr>';
-    }).join('');
-  }
-
-  function syncExtractedRowsFromInputs() {
-    const rows = [];
-    document.querySelectorAll('#extractedRowsBody tr').forEach(tr => {
-      const row = {};
-      tr.querySelectorAll('[data-field]').forEach(input => row[input.dataset.field] = input.value.trim());
-      row.amount = Number(row.amount);
-      if(row.item && row.amount > 0) rows.push(row);
-    });
-    extractedRows = rows;
-    return rows;
-  }
-
-  function removeExtractedRow(idx) {
-    syncExtractedRowsFromInputs();
-    extractedRows.splice(idx, 1);
-    renderExtractedRows();
-  }
-
-  function clearExtractedRows(updateStatus = true) {
-    extractedRows = [];
-    renderExtractedRows();
-    if(updateStatus) document.getElementById('ocrStatus').innerText = '';
-  }
-
-  function addExtractedRows() {
-    const rows = syncExtractedRowsFromInputs();
-    if(!rows.length) return alert('No valid extracted rows to add.');
-    const store = document.getElementById('storeName').value.trim() || 'Unknown Store';
-    const now = new Date();
-    const tx = db.transaction(STORE_NAME, "readwrite");
-    const objectStore = tx.objectStore(STORE_NAME);
-    rows.forEach(row => objectStore.add({
-      store,
-      particular: row.item,
-      amount: Number(row.amount),
-      category: row.category || 'Other',
-      staff: currentUser,
-      type: currentBillType,
-      photo: tempImage,
-      date: row.date || todayKey(),
-      time: now.toLocaleTimeString('en-NP', {hour: '2-digit', minute:'2-digit', hour12: true}),
-      timestamp: now.toISOString(),
-      source: 'Bill OCR'
-    }));
-    tx.oncomplete = () => {
-      clearExtractedRows(false);
-      resetForm();
-      refreshUI();
-      alert('Extracted rows added to today\'s purchase history.');
-    };
-    tx.onerror = () => alert('Could not add extracted rows. Please try again.');
-  }
-
-  function exportExtractedCSV() {
-    const rows = syncExtractedRowsFromInputs();
-    if(!rows.length) return alert('No extracted rows to export.');
-    const headers = ['Date','Item','Category','Amount'];
-    const csvRows = rows.map(r => [r.date || todayKey(), r.item, r.category || 'Other', r.amount]);
-    downloadCSV(`KTR_Extracted_Bill_${todayKey()}.csv`, [headers, ...csvRows]);
-  }
-
-  function submitPurchase() {
-    const store = document.getElementById('storeName').value.trim();
-    const part = document.getElementById('particular').value.trim();
-    const amt = Number(document.getElementById('amount').value);
-    const cat = document.getElementById('category').value;
-    const editId = document.getElementById('editId').value;
-
-    if(!store || !part || !amt || amt <= 0 || cat === 'Select...') return alert("Please fill Store, Category, Particular, and valid Amount.");
-
-    const now = new Date();
-    const entry = {
-      store,
-      particular: part,
-      amount: amt,
-      category: cat,
-      staff: currentUser,
-      type: currentBillType,
-      photo: tempImage,
-      date: todayKey(),
-      time: now.toLocaleTimeString('en-NP', {hour: '2-digit', minute:'2-digit', hour12: true}),
-      timestamp: now.toISOString(),
-      updatedAt: editId ? now.toISOString() : null
-    };
-
-    const tx = db.transaction(STORE_NAME, "readwrite");
-    const objectStore = tx.objectStore(STORE_NAME);
-    if(editId) {
-      const old = todayEntries.find(i => String(i.id) === String(editId));
-      entry.id = Number(editId);
-      if(!entry.photo && old && old.photo) entry.photo = old.photo;
-      objectStore.put(entry);
-    } else {
-      objectStore.add(entry);
-    }
-    tx.oncomplete = () => { resetForm(); refreshUI(); };
-    tx.onerror = () => alert('Could not save. Please try again.');
-  }
-
-  function resetForm() {
-    document.getElementById('formTitle').innerText = "New Purchase";
-    document.getElementById('saveBtn').innerText = "Add Purchase";
-    document.getElementById('cancelEditBtn').classList.add('hidden');
-    document.getElementById('editId').value = "";
-    document.getElementById('storeName').value = "";
-    document.getElementById('particular').value = "";
-    document.getElementById('amount').value = "";
-    document.getElementById('category').selectedIndex = 0;
-    document.getElementById('scanPreview').classList.add('hidden');
-    document.getElementById('previewImg').src = "";
-    document.getElementById('ocrStatus').innerText = "";
-    document.getElementById('ocrBtn').disabled = true;
-    document.getElementById('fileInput').value = "";
-    tempImage = null;
-    setBillType('Local Bill');
-  }
-
-  function cancelEdit() { resetForm(); }
-
-  async function refreshUI() {
-    const tx = db.transaction(STORE_NAME, "readonly");
-    const store = tx.objectStore(STORE_NAME);
-    const request = store.getAll();
-    request.onsuccess = () => {
-      todayEntries = request.result
-        .filter(i => i.date === todayKey())
-        .sort((a,b) => new Date(b.timestamp || b.date) - new Date(a.timestamp || a.date));
-
-      let tax = 0, local = 0;
-      const html = todayEntries.map(item => {
-        if(item.type === "Tax Bill") tax += Number(item.amount || 0); else local += Number(item.amount || 0);
-        return `
-          <div class="entry">
-            <div class="entry-top"><span>${escapeHtml(item.store)}</span><span>Rs. ${formatMoney(item.amount)}</span></div>
-            <div class="entry-sub">${escapeHtml(item.category)} • ${escapeHtml(item.type)} • ${escapeHtml(item.staff)} • ${escapeHtml(item.time || '')}${item.source ? ' • ' + escapeHtml(item.source) : ''}</div>
-            <div class="entry-note">${escapeHtml(item.particular || '')}</div>
-            ${item.photo ? `<img src="${item.photo}" class="entry-img" alt="Bill photo">` : ''}
-            <div class="entry-actions">
-              <button class="btn btn-outline mini-btn" onclick="editEntry(${item.id})">Edit</button>
-              <button class="btn btn-danger mini-btn" onclick="deleteEntry(${item.id})">Delete</button>
-            </div>
+      <div class="card">
+        <h2>Add Daily Purchase</h2>
+        <div class="stack">
+          <div class="grid2"><div><label for="storeName">Store Name</label><input id="storeName" placeholder="Enter store / person name" /></div><div><label for="particular">Particular</label><input id="particular" placeholder="Item / details" /></div></div>
+          <div><label>Bill Type</label><div class="bill-type-row"><button class="btn bill-type active" id="localBillBtn" type="button" data-bill="Local Bill">Local Bill</button><button class="btn bill-type tax" id="taxBillBtn" type="button" data-bill="Tax Bill">Tax Bill</button></div><div class="section-note" style="margin-top:6px">Default is Local Bill. Select Tax Bill only for proper accounting/VAT bills.</div></div>
+          <div class="grid2"><div><label for="purchaseCategory">Category</label><select id="purchaseCategory"></select></div><div id="subCategoryWrap" class="hidden"><label for="purchaseSubCategory">Sub Category</label><select id="purchaseSubCategory"></select></div></div>
+          <div><label for="amount">Amount (Rs.)</label><input id="amount" type="number" inputmode="decimal" min="0" placeholder="0" /></div>
+          <div>
+            <label for="billPhoto">Scan / Photo of Bill</label>
+            <input id="billPhoto" class="file-hidden" type="file" accept="image/*" capture="environment" />
+            <button class="btn btn-soft photo-action" id="takeBillPhotoBtn" type="button">📷 Scan Bill from Phone Camera</button>
           </div>
-        `;
-      }).join('');
+          <div id="photoPreview" class="photo-preview hidden"><img id="photoThumb" alt="Bill preview" /><div class="muted"><strong>Clean bill scan saved.</strong><br><span id="photoName"></span></div></div>
+          <div id="largePreview" class="preview-large hidden"><img id="largeThumb" alt="Enhanced bill preview" /></div>
+          <div class="scan-tools">
+            <button class="btn btn-soft" id="enhanceBillBtn" type="button">✨ Enhance Scan</button>
+            <button class="btn btn-soft" id="readBillBtn" type="button">🔍 Read Bill</button>
+          </div>
+          <div class="scan-note">Hybrid mode: scan/enhance works offline. “Read Bill” uses online OCR when internet is available, then suggests category and amount for staff confirmation.</div>
+          <div id="ocrStatus" class="ocr-status hidden"></div>
+          <div id="ocrWrap" class="hidden">
+            <label for="ocrText">Extracted Bill Text</label>
+            <textarea id="ocrText" placeholder="Bill text will appear here after reading."></textarea>
+          </div>
+          <div id="suggestWrap" class="suggest-box hidden">
+            <strong>Smart Suggestion</strong>
+            <div id="suggestText"></div>
+            <button class="btn btn-primary" style="width:100%;margin-top:8px" id="applySuggestionBtn" type="button">Apply Suggestion</button>
+          </div>
+          <button class="btn btn-primary" id="addPurchaseBtn">+ Add Purchase</button>
+        </div>
+      </div>
 
-      document.getElementById('historyList').innerHTML = html || '<p class="muted">No purchases today.</p>';
-      document.getElementById('statCount').innerText = todayEntries.length;
-      document.getElementById('statTax').innerText = formatMoney(tax);
-      document.getElementById('statLocal').innerText = formatMoney(local);
-      document.getElementById('statTotal').innerText = formatMoney(tax + local);
-    };
+      <div class="card">
+        <h2>Daily Purchases</h2>
+        <div id="purchaseList" class="muted">No purchases yet for today.</div>
+        <div id="purchaseTotal" class="mini-total hidden"></div>
+      </div>
+
+      <div class="card">
+        <h2>Daily Purchase Report</h2>
+        <div id="reportPreview" class="report-box"></div>
+        <div class="row" style="margin-top:10px"><button class="btn btn-soft" id="copyBtn">Copy Report</button><button class="btn btn-soft" id="downloadBtn">Download TXT</button><button class="btn btn-whatsapp" id="whatsappBtn">Send to WhatsApp</button></div>
+        <div class="row" style="margin-top:8px"><button class="btn btn-soft" id="downloadCsvBtn">Download Excel CSV</button><button class="btn btn-whatsapp" id="whatsappExcelBtn">Send Excel Format to WhatsApp</button></div>
+        <div class="row" style="margin-top:8px"><button class="btn btn-soft" id="pdfReportBtn">Open PDF Report with Bill Photos</button></div>
+        <div class="excel-note">Use “Download Excel CSV” when you need an actual file for Excel. WhatsApp will send a clean table-style report.</div>
+        <button class="btn btn-danger" style="width:100%;margin-top:10px" id="clearBtn">Clear Today Purchases</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const KEY='ktr-daily-purchase-v22-login-fixed'; const WA='9779808121644';
+const purchaseCategories=['Select category','Kitchen','Water','Garbage','Cleaning','Staff Meal','Wages','Supply','Electricity','Internet','Fuel/Diesel','Gardening','Laundry','Stationery','Other'];
+const purchaseSubCategories={'Wages':['Select sub category','Electrician','Technician','Plumber','Carpenter'],'Supply':['Select sub category','Electrical Goods','Plumbing Goods','Other']};
+const defaults={Sonam:'9999',Amar:'1111','Kul Bdr.':'2222',Raman:'3333'};
+const $=id=>document.getElementById(id);
+let activeBillType='Local Bill', pendingPhoto=null;
+let state=load();
+function today(){const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)}
+function blankState(){return{date:today(),staffPins:{...defaults},currentStaff:'',logged:false,purchases:[]}}
+function load(){try{const p=JSON.parse(localStorage.getItem(KEY)||'{}');const s=blankState();if(p.date&&p.date!==s.date){p.purchases=[];p.date=s.date}const pins=(p.staffPins&&Object.keys(p.staffPins).length)?p.staffPins:s.staffPins;return{...s,...p,staffPins:pins,purchases:Array.isArray(p.purchases)?p.purchases:[]}}catch{return blankState()}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function fill(sel,items){if(!sel)return; sel.innerHTML=''; (items&&items.length?items:['Sonam','Amar','Kul Bdr.','Raman']).forEach((x,i)=>{const o=document.createElement('option');o.value=i===0&&String(x).startsWith('Select')?'':x;o.textContent=x;sel.appendChild(o)}); if(sel.id==='loginStaff' && !sel.value){sel.value='Sonam';}}
+function esc(s){return String(s||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')}
+function money(n){return (Number(n)||0).toLocaleString('en-NP',{maximumFractionDigits:2})}
+function init(){state.staffPins={...defaults,...(state.staffPins||{})}; save(); fill($('loginStaff'),Object.keys(state.staffPins)); if($('loginStaff') && !$('loginStaff').value){$('loginStaff').value='Sonam'} fill($('purchaseCategory'),purchaseCategories); bind(); refresh(); togglePurchaseSubCategory()}
+function bind(){
+ $('loginBtn').onclick=login; $('loginPin').onkeydown=e=>{if(e.key==='Enter')login()}; $('logoutBtn').onclick=()=>{state.logged=false;state.currentStaff='';save();refresh()};
+ $('purchaseCategory').onchange=togglePurchaseSubCategory; $('takeBillPhotoBtn').onclick=()=>$('billPhoto').click(); $('billPhoto').onchange=handlePhoto; $('enhanceBillBtn').onclick=enhanceBill; $('readBillBtn').onclick=readBill; $('applySuggestionBtn').onclick=applySuggestion; $('addPurchaseBtn').onclick=addPurchase; $('copyBtn').onclick=copyReport; $('downloadBtn').onclick=downloadTxt; $('whatsappBtn').onclick=whatsapp; $('downloadCsvBtn').onclick=downloadCsv; $('whatsappExcelBtn').onclick=whatsappExcel; $('pdfReportBtn').onclick=openPdfReport; $('clearBtn').onclick=clearToday; $('addStaffBtn').onclick=addStaff; $('updatePinBtn').onclick=updatePin; document.querySelectorAll('.bill-type').forEach(b=>b.onclick=()=>setBillType(b.dataset.bill));
+}
+function login(){
+  state.staffPins={...defaults,...(state.staffPins||{})};
+  const s=($('loginStaff') && $('loginStaff').value) ? $('loginStaff').value : 'Sonam';
+  const p=($('loginPin') && $('loginPin').value ? $('loginPin').value : '').trim();
+  if(state.staffPins[s]===p){
+    state.currentStaff=s;
+    state.logged=true;
+    if($('loginPin')) $('loginPin').value='';
+    if($('loginMsg')) $('loginMsg').textContent='';
+    save();
+    showApp();
+  }else{
+    if($('loginMsg')) $('loginMsg').textContent='Invalid staff name or PIN.';
   }
-
-  function editEntry(id) {
-    const item = todayEntries.find(i => i.id === id);
-    if(!item) return alert('Entry not found.');
-    document.getElementById('formTitle').innerText = "Edit Purchase";
-    document.getElementById('saveBtn').innerText = "Update Purchase";
-    document.getElementById('cancelEditBtn').classList.remove('hidden');
-    document.getElementById('editId').value = item.id;
-    document.getElementById('storeName').value = item.store || '';
-    document.getElementById('particular').value = item.particular || '';
-    document.getElementById('amount').value = item.amount || '';
-    document.getElementById('category').value = item.category || 'Select...';
-    tempImage = item.photo || null;
-    if(tempImage) {
-      document.getElementById('previewImg').src = tempImage;
-      document.getElementById('scanPreview').classList.remove('hidden');
-      document.getElementById('ocrBtn').disabled = false;
-      document.getElementById('ocrStatus').innerText = "Existing bill photo loaded.";
-    }
-    setBillType(item.type || 'Local Bill');
-    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+function showApp(){
+  if($('loginScreen')) $('loginScreen').classList.add('hidden');
+  if($('appScreen')) $('appScreen').classList.remove('hidden');
+  renderApp();
+}
+function showLogin(){
+  if($('loginScreen')) $('loginScreen').classList.remove('hidden');
+  if($('appScreen')) $('appScreen').classList.add('hidden');
+  state.staffPins={...defaults,...(state.staffPins||{})};
+  if($('loginStaff')){
+    fill($('loginStaff'),Object.keys(state.staffPins));
+    $('loginStaff').value=state.currentStaff || 'Sonam';
   }
-
-  function deleteEntry(id) {
-    if(!confirm('Delete this purchase entry?')) return;
-    const tx = db.transaction(STORE_NAME, "readwrite");
-    tx.objectStore(STORE_NAME).delete(id);
-    tx.oncomplete = () => refreshUI();
+}
+function refresh(){
+  save();
+  if(state.logged) showApp(); else showLogin();
+}
+function renderApp(){
+  state.staffPins={...defaults,...(state.staffPins||{})};
+  if($('appWrap')) $('appWrap').classList.toggle('admin-on',state.currentStaff==='Sonam');
+  if($('userPill')) $('userPill').textContent=state.currentStaff+(state.currentStaff==='Sonam'?' — Admin':' — Staff');
+  if($('dateLabel')) $('dateLabel').textContent=state.date;
+  if($('pinStaff')) fill($('pinStaff'),Object.keys(state.staffPins));
+  renderStaff();renderStats();renderPurchases();renderReport();togglePurchaseSubCategory();
+}
+function setBillType(type){activeBillType=type||'Local Bill';document.querySelectorAll('.bill-type').forEach(x=>x.classList.toggle('active',x.dataset.bill===activeBillType))}
+function togglePurchaseSubCategory(){const cat=$('purchaseCategory').value;const list=purchaseSubCategories[cat]||[];$('subCategoryWrap').classList.toggle('hidden',!list.length);fill($('purchaseSubCategory'),list.length?list:['']);}
+function purchaseLabel(x){return x.subCategory?`${x.category} / ${x.subCategory}`:x.category}
+function setScanStatus(msg){$('ocrStatus').textContent=msg;$('ocrStatus').classList.toggle('hidden',!msg)}
+function showScanPreview(){if(!pendingPhoto)return;$('photoThumb').src=pendingPhoto.data;$('largeThumb').src=pendingPhoto.data;$('photoName').textContent=pendingPhoto.name;$('photoPreview').classList.remove('hidden');$('largePreview').classList.remove('hidden')}
+function handlePhoto(e){const file=e.target.files&&e.target.files[0];if(!file){pendingPhoto=null;$('photoPreview').classList.add('hidden');$('largePreview').classList.add('hidden');return}const reader=new FileReader();reader.onload=ev=>{const img=new Image();img.onload=()=>{pendingPhoto=makeScan(img,file.name||'Bill scan',false);showScanPreview();setScanStatus('Bill scanned. Tap “Enhance Scan” for clearer accounting photo, or “Read Bill” to extract text.')};img.src=ev.target.result};reader.readAsDataURL(file)}
+function makeScan(img,name,enhanced){const max=1400;let w=img.width,h=img.height;if(w>max||h>max){const ratio=Math.min(max/w,max/h);w=Math.round(w*ratio);h=Math.round(h*ratio)}const c=document.createElement('canvas');c.width=w;c.height=h;const ctx=c.getContext('2d');ctx.drawImage(img,0,0,w,h);if(enhanced){let d=ctx.getImageData(0,0,w,h),a=d.data;for(let i=0;i<a.length;i+=4){let gray=.299*a[i]+.587*a[i+1]+.114*a[i+2];gray=(gray-128)*1.35+128;gray=Math.max(0,Math.min(255,gray));a[i]=a[i+1]=a[i+2]=gray}ctx.putImageData(d,0,0)}return{name:name+(enhanced?' · enhanced':''),data:c.toDataURL('image/jpeg',enhanced?0.82:0.76)}}
+function enhanceBill(){if(!pendingPhoto)return alert('Please scan or choose a bill photo first.');const img=new Image();img.onload=()=>{pendingPhoto=makeScan(img,'Enhanced bill scan',true);showScanPreview();setScanStatus('Scan enhanced for clearer text and accounting record.')};img.src=pendingPhoto.data}
+function loadTesseract(){return new Promise((resolve,reject)=>{if(window.Tesseract)return resolve();const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';sc.onload=()=>resolve();sc.onerror=()=>reject(new Error('OCR library could not load. Please check internet connection.'));document.head.appendChild(sc)})}
+async function readBill(){if(!pendingPhoto)return alert('Please scan or choose a bill photo first.');setScanStatus('Loading online OCR… please wait.');try{await loadTesseract();setScanStatus('Reading bill text… this may take a little time.');const res=await Tesseract.recognize(pendingPhoto.data,'eng',{logger:m=>{if(m.status)$('ocrStatus').textContent='Reading bill: '+m.status+(m.progress?(' '+Math.round(m.progress*100)+'%'):'')}});const text=(res.data&&res.data.text||'').trim();$('ocrText').value=text;$('ocrWrap').classList.remove('hidden');const sug=suggestFromText(text);currentSuggestion=sug;renderSuggestion(sug);setScanStatus(text?'Bill read completed. Please check and confirm before saving.':'OCR finished but could not read clear text. You can still enter manually.')}catch(err){setScanStatus('Online OCR is not available now. Scan photo is saved; please enter details manually.')}}
+let currentSuggestion=null;
+function suggestFromText(text){
+  const t=(text||'').toLowerCase();
+  const amount=findAmount(text);
+  let category='Other',subCategory='';
+  const rules=[
+    ['Kitchen',['rice','milk','vegetable','egg','bread','meat','chicken','dal','atta','oil','food','grocery','bhatbhateni','saleways']],
+    ['Water',['water','jar','mineral']],['Garbage',['garbage','waste','trash']],
+    ['Cleaning',['clean','detergent','soap','phenyl','harpic','bleach','mop','broom']],
+    ['Staff Meal',['meal','lunch','breakfast','dinner','khaja']],['Fuel/Diesel',['diesel','petrol','fuel','gas','lpg']],
+    ['Electricity',['electricity','nea','meter']],['Internet',['internet','worldlink','vianet','ntc','wifi']],
+    ['Gardening',['plant','flower','soil','garden']],['Laundry',['laundry','washing']],
+    ['Stationery',['paper','pen','print','stationery']],['Supply',['pipe','tap','valve','wire','bulb','switch','socket','cement','paint','hardware']]
+  ];
+  for(const [cat,words] of rules){if(words.some(w=>t.includes(w))){category=cat;break}}
+  if(category==='Supply'){
+    if(['wire','bulb','switch','socket','electric'].some(w=>t.includes(w))) subCategory='Electrical Goods';
+    else if(['pipe','tap','valve','plumb'].some(w=>t.includes(w))) subCategory='Plumbing Goods';
+    else subCategory='Other';
   }
-
-  function populateSelect(id, list) {
-    document.getElementById(id).innerHTML = list.map(i => `<option value="${escapeAttr(i)}">${escapeHtml(i)}</option>`).join('');
+  if(['plumber','carpenter','electrician','technician'].some(w=>t.includes(w))){
+    category='Wages';
+    subCategory=t.includes('plumber')?'Plumber':t.includes('carpenter')?'Carpenter':t.includes('electrician')?'Electrician':'Technician';
   }
-
-  function sendWhatsApp() {
-    if(!todayEntries.length) return alert('No purchases to send today.');
-    const tax = todayEntries.filter(i => i.type === 'Tax Bill').reduce((s,i) => s + Number(i.amount || 0), 0);
-    const local = todayEntries.filter(i => i.type !== 'Tax Bill').reduce((s,i) => s + Number(i.amount || 0), 0);
-    const lines = [...todayEntries].reverse().map((i, idx) =>
-      `${idx + 1}. ${i.time || ''} | ${i.store} | ${i.category} | ${i.particular} | ${i.type} | ${i.staff} | Rs. ${formatMoney(i.amount)}`
-    ).join('\n');
-    const msg = `KTR Daily Purchase Report\nDate/Time: ${formatDateTime()}\nPrepared by: ${currentUser}\n\n${lines}\n\nSummary:\nTax Bill: Rs. ${formatMoney(tax)}\nLocal Bill: Rs. ${formatMoney(local)}\nTotal: Rs. ${formatMoney(tax + local)}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  function exportCSV() {
-    if(!todayEntries.length) return alert('No purchases to export today.');
-    const headers = ['Date','Time','Store','Item','Category','Bill Type','Staff','Amount','Source'];
-    const rows = [...todayEntries].reverse().map(i => [i.date, i.time, i.store, i.particular, i.category, i.type, i.staff, i.amount, i.source || 'Manual']);
-    downloadCSV(`KTR_Daily_Purchase_${todayKey()}.csv`, [headers, ...rows]);
-  }
-
-  function downloadCSV(filename, rows) {
-    const csv = rows.map(row => row.map(cell => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
-    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
-
-  function clearTodayData() {
-    if(!confirm("Are you sure? This deletes only today's purchase records.")) return;
-    const tx = db.transaction(STORE_NAME, "readwrite");
-    const store = tx.objectStore(STORE_NAME);
-    const request = store.getAll();
-    request.onsuccess = () => {
-      const today = todayKey();
-      request.result.filter(i => i.date === today).forEach(i => store.delete(i.id));
-    };
-    tx.oncomplete = () => refreshUI();
-  }
-
-  function escapeHtml(str) {
-    return String(str ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-  }
-  function escapeAttr(str) { return escapeHtml(str).replace(/`/g, '&#96;'); }
-
-  init();
+  const lines=(text||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);
+  let store=lines[0]||'';
+  store=store.replace(/[^a-zA-Z0-9 .,&-]/g,'').slice(0,40);
+  let particular=lines.slice(1,5).join(' / ').slice(0,90);
+  return{store,particular,category,subCategory,amount};
+}
+function findAmount(text){
+  const matches=(text||'').match(/[0-9]{1,3}(?:,[0-9]{3})*(?:\.[0-9]{1,2})?|[0-9]+(?:\.[0-9]{1,2})?/g)||[];
+  const nums=matches.map(x=>Number(x.replace(/,/g,''))).filter(n=>n>0&&n<1000000);
+  return nums.length?Math.max(...nums):'';
+}
+function renderSuggestion(s){if(!s){$('suggestWrap').classList.add('hidden');return}$('suggestText').innerHTML='<div class="suggest-line">Store: <strong>'+esc(s.store||'Not found')+'</strong></div><div class="suggest-line">Category: <strong>'+esc(s.category||'Other')+(s.subCategory?' / '+esc(s.subCategory):'')+'</strong></div><div class="suggest-line">Amount: <strong>'+(s.amount?('Rs. '+money(s.amount)):'Not found')+'</strong></div><div class="suggest-line">Please confirm before saving.</div>';$('suggestWrap').classList.remove('hidden')}
+function applySuggestion(){const s=currentSuggestion;if(!s)return;if(s.store&&!$('storeName').value)$('storeName').value=s.store;if(s.particular&&!$('particular').value)$('particular').value=s.particular;if(s.category){$('purchaseCategory').value=s.category;togglePurchaseSubCategory();if(s.subCategory)$('purchaseSubCategory').value=s.subCategory}if(s.amount&&!$('amount').value)$('amount').value=s.amount}
+function addPurchase(){const store=$('storeName').value.trim(),particular=$('particular').value.trim(),category=$('purchaseCategory').value,subCategory=$('subCategoryWrap').classList.contains('hidden')?'':$('purchaseSubCategory').value,amount=Number($('amount').value);if(!store)return alert('Please enter store or person name.');if(!particular)return alert('Please enter particular.');if(!category)return alert('Please select category.');if(purchaseSubCategories[category]&&!subCategory)return alert('Please select sub category.');if(!amount||amount<0)return alert('Please enter amount.');state.purchases.unshift({store,particular,category,subCategory,billType:activeBillType||'Local Bill',amount,photo:pendingPhoto,staff:state.currentStaff,date:state.date,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})});$('storeName').value='';$('particular').value='';$('purchaseCategory').value='';togglePurchaseSubCategory();$('amount').value='';$('billPhoto').value='';pendingPhoto=null;currentSuggestion=null;setBillType('Local Bill');$('photoPreview').classList.add('hidden');$('largePreview').classList.add('hidden');$('ocrWrap').classList.add('hidden');$('suggestWrap').classList.add('hidden');setScanStatus('');refresh()}
+function sumByBill(type){return state.purchases.filter(x=>(x.billType||'Local Bill')===type).reduce((s,x)=>s+(Number(x.amount)||0),0)}
+function renderStats(){$('statCount').textContent=state.purchases.length;$('statTax').textContent=money(sumByBill('Tax Bill'));$('statLocal').textContent=money(sumByBill('Local Bill'))}
+function renderPurchases(){if(!state.purchases.length){$('purchaseList').className='muted';$('purchaseList').textContent='No purchases yet for today.';$('purchaseTotal').classList.add('hidden');return}$('purchaseList').className='';let html='';['Tax Bill','Local Bill'].forEach(g=>{const arr=state.purchases.filter(x=>(x.billType||'Local Bill')===g);if(!arr.length)return;const total=arr.reduce((s,x)=>s+(Number(x.amount)||0),0);html+=`<div class="group-title">${g} — Rs. ${money(total)}</div>`;html+=arr.map(x=>`<div class="entry"><div class="entry-head"><div><strong>${esc(x.store)}</strong><div class="muted tiny">${esc(purchaseLabel(x))} · ${esc(x.particular)} · ${esc(x.billType||'Local Bill')} · ${esc(x.staff)} · ${esc(x.time)}</div>${x.photo?'<div class="muted tiny">Bill photo saved</div>':''}</div><span class="pill purchase">Rs. ${money(x.amount)}</span></div>${x.photo?`<div style="margin-top:8px"><img src="${x.photo.data}" alt="Bill photo" style="width:92px;height:92px;object-fit:contain;background:white;border-radius:10px;border:1px solid #e5e7eb;padding:3px"></div>`:''}</div>`).join('')});$('purchaseList').innerHTML=html;const taxTotal=sumByBill('Tax Bill'),localTotal=sumByBill('Local Bill'),grand=taxTotal+localTotal;$('purchaseTotal').classList.remove('hidden');$('purchaseTotal').innerHTML=`Tax Bill Total: Rs. ${money(taxTotal)}<br>Local Bill Total: Rs. ${money(localTotal)}<br>Grand Total: Rs. ${money(grand)}`}
+function purchaseSummary(){if(!state.purchases.length)return '- None';const out=[];['Tax Bill','Local Bill'].forEach(g=>{const arr=state.purchases.filter(x=>(x.billType||'Local Bill')===g);out.push(`${g}:`);if(!arr.length){out.push('- None');return}arr.forEach(x=>out.push(`- ${x.store}: ${x.particular} (${purchaseLabel(x)}) Rs. ${money(x.amount)}${x.photo?' [bill photo saved]':''}`));out.push(`Subtotal ${g}: Rs. ${money(arr.reduce((s,x)=>s+(Number(x.amount)||0),0))}`)});out.push(`Grand Total Purchase: Rs. ${money(state.purchases.reduce((s,x)=>s+(Number(x.amount)||0),0))}`);return out.join('\n')}
+function reportText(){return[`Karma Tara Residency - Daily Purchase Report`,`Date: ${state.date}`,`Staff: ${state.currentStaff}`,'','Daily Purchases:',purchaseSummary()].join('\n')}
+function renderReport(){$('reportPreview').textContent=reportText()}
+function copyReport(){navigator.clipboard.writeText(reportText()).then(()=>alert('Report copied.')).catch(()=>alert('Copy failed.'))}
+function downloadTxt(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([reportText()],{type:'text/plain'}));a.download=`KTR-Daily-Purchase-${state.date}.txt`;a.click();URL.revokeObjectURL(a.href)}
+function csvRows(){const rows=[];rows.push(['Section','Date','Staff','Category','Sub Category','Store','Particular','Bill Type','Amount','Bill Photo']);state.purchases.forEach(x=>rows.push(['Purchase',state.date,x.staff,x.category,x.subCategory||'',x.store,x.particular,x.billType||'Local Bill',Number(x.amount)||0,x.photo?'Bill photo saved':'No bill photo']));return rows}
+function csvText(){return csvRows().map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n')}
+function excelFormatText(){const rows=csvRows();return 'Karma Tara Residency - Daily Purchase (Excel Format)\n'+'Date: '+state.date+'\n\n'+rows.map(r=>r.join('\t')).join('\n')}
+function downloadCsv(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csvText()],{type:'text/csv;charset=utf-8'}));a.download=`KTR-Daily-Purchase-Excel-${state.date}.csv`;a.click();URL.revokeObjectURL(a.href)}
+function whatsappExcel(){window.open(`https://wa.me/${WA}?text=${encodeURIComponent(excelFormatText())}`,'_blank')}
+function whatsapp(){window.open(`https://wa.me/${WA}?text=${encodeURIComponent(reportText())}`,'_blank')}
+function purchaseRowsFor(type){return state.purchases.filter(x=>(x.billType||'Local Bill')===type)}
+function openPdfReport(){const w=window.open('','_blank');if(!w){alert('Please allow popups to open the PDF report.');return}const purchaseSection=(type)=>{const arr=purchaseRowsFor(type);if(!arr.length)return `<div class="pdf-section"><h2>${type}</h2><p>No entries.</p></div>`;const total=arr.reduce((s,x)=>s+(Number(x.amount)||0),0);return `<div class="pdf-section"><h2>${type}</h2><div><strong>Subtotal: Rs. ${money(total)}</strong></div>`+arr.map(x=>`<div class="pdf-item"><strong>${esc(x.store)}</strong><br>Particular: ${esc(x.particular)}<br>Category: ${esc(purchaseLabel(x))}<br>Amount: Rs. ${money(x.amount)}<br>Staff: ${esc(x.staff)} · ${esc(x.time)}${x.photo?`<br><img class="pdf-photo" src="${x.photo.data}" alt="Bill photo">`:'<br><em>No bill photo</em>'}</div>`).join('')+`</div>`};const html=`<!DOCTYPE html><html><head><title>KTR Daily Purchase ${state.date}</title><style>${document.querySelector('style').innerHTML}</style></head><body><div class="pdf-page"><h1>Karma Tara Residency</h1><div>Daily Purchase Report</div><div>Date: ${state.date}</div><div>Prepared by: ${esc(state.currentStaff)}</div>${purchaseSection('Tax Bill')}${purchaseSection('Local Bill')}<div class="pdf-section"><h2>Purchase Totals</h2><p>Tax Bill Total: Rs. ${money(sumByBill('Tax Bill'))}<br>Local Bill Total: Rs. ${money(sumByBill('Local Bill'))}<br><strong>Grand Total: Rs. ${money(sumByBill('Tax Bill')+sumByBill('Local Bill'))}</strong></p></div><div class="no-print" style="margin-top:20px"><button onclick="window.print()" style="padding:12px 18px;border:0;border-radius:12px;background:#1f6b46;color:white;font-weight:800">Print / Save as PDF</button></div></div></body></html>`;w.document.open();w.document.write(html);w.document.close()}
+function clearToday(){if(confirm('Clear today purchases?')){state.purchases=[];refresh()}}
+function addStaff(){const n=$('newStaffName').value.trim(),p=$('newStaffPin').value.trim();if(!n||!/^\d{4}$/.test(p))return alert('Enter staff name and 4-digit PIN.');state.staffPins[n]=p;$('newStaffName').value='';$('newStaffPin').value='';refresh()}
+function updatePin(){const s=$('pinStaff').value,p=$('changePin').value.trim();if(!/^\d{4}$/.test(p))return alert('Enter new 4-digit PIN.');state.staffPins[s]=p;$('changePin').value='';refresh()}
+function renderStaff(){$('staffList').textContent=Object.keys(state.staffPins).map((x,i)=>`${i+1}. ${x} — ${x==='Sonam'?'Admin':'Staff'}`).join('\n')}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}
 </script>
 </body>
 </html>
