@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Karma Tara Residency - Daily Purchase V3.5 Hybrid Smart Scan</title>
+  <title>Karma Tara Residency - Daily Purchase V3.5.1 Hybrid Smart Scan</title>
   <style>
     :root{--bg:#f0f2f5;--card:#fff;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb;--brand:#1f6b46;--brand2:#15583a;--brand-light:#edf7f1;--accent:#d99100;--danger:#dc2626;--warn:#f59e0b;--shadow:0 4px 12px rgba(0,0,0,.08);--radius:16px}
     *{box-sizing:border-box;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif} body{margin:0;background:var(--bg);color:var(--text);line-height:1.5;padding-bottom:40px}.hidden{display:none!important}.wrap{max-width:680px;margin:0 auto;padding:16px}.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:16px;border:1px solid var(--line)}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}h1{font-size:1.22rem;margin:0;color:var(--brand)}h2{font-size:1rem;margin:0 0 12px;border-left:4px solid var(--brand);padding-left:10px}label{display:block;font-size:.85rem;font-weight:700;margin-bottom:6px;color:var(--muted)}input,select,textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;font-size:1rem;margin-bottom:12px;background:white}input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.btn{border:none;border-radius:12px;padding:13px;font-weight:800;cursor:pointer;width:100%;transition:.15s}.btn:active{transform:scale(.985)}.btn-primary{background:var(--brand);color:white}.btn-outline{background:white;border:1px solid var(--line);color:var(--text)}.btn-whatsapp{background:#25D366;color:white}.btn-danger{background:#fee2e2;color:var(--danger)}.btn-warn{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}.btn-scan{background:#111827;color:white}.pill{display:inline-flex;gap:6px;align-items:center;border-radius:999px;background:var(--brand-light);color:var(--brand);font-size:.75rem;font-weight:800;padding:5px 9px}.muted{color:var(--muted);font-size:.85rem}.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}.stat-box{background:var(--brand-light);padding:10px;border-radius:12px}.stat-val{display:block;font-size:1.05rem;font-weight:900;color:var(--brand)}.stat-lab{font-size:.65rem;text-transform:uppercase;color:var(--muted)}.bill-toggle{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}.bill-toggle button.active{background:var(--brand);color:white;border-color:var(--brand)}.entry{border-bottom:1px solid var(--line);padding:12px 0}.entry:last-child{border:none}.entry-top{display:flex;justify-content:space-between;gap:8px;font-weight:800}.entry-sub{font-size:.8rem;color:var(--muted)}.entry-img{width:60px;height:60px;border-radius:8px;object-fit:cover;margin-top:8px;border:1px solid var(--line)}.entry-actions{display:flex;gap:8px;margin-top:8px}.entry-actions button{padding:8px;font-size:.8rem}.scan-preview{text-align:center;margin-top:8px}.scan-preview img{max-width:100%;border-radius:12px;border:1px solid var(--line)}.status{font-size:.85rem;margin:8px 0;color:var(--brand);font-weight:700}.warnbox{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:10px;color:#92400e;font-size:.85rem}.review-row{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px;background:#fafafa}.review-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.conf-high{color:#15803d}.conf-med{color:#b45309}.conf-low{color:#dc2626}.smallbtn{width:auto;padding:7px 10px;border-radius:10px;font-size:.8rem}@media(max-width:560px){.grid2,.grid3{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr 1fr}.header{align-items:flex-start}.wrap{padding:12px}.card{padding:15px}}
@@ -14,7 +14,7 @@
 <div id="appSection" class="wrap hidden">
   <div class="header"><div><h1 id="userGreeting">Namaste</h1><small id="currentDate" style="color:var(--muted)"></small></div><button class="btn btn-outline" style="width:auto;padding:8px 15px" onclick="handleLogout()">Logout</button></div>
   <div class="card"><div class="stats-row"><div class="stat-box"><span class="stat-lab">Count</span><span class="stat-val" id="statCount">0</span></div><div class="stat-box"><span class="stat-lab">Tax Rs</span><span class="stat-val" id="statTax">0</span></div><div class="stat-box"><span class="stat-lab">Local Rs</span><span class="stat-val" id="statLocal">0</span></div></div></div>
-  <div class="card"><h2>New Purchase</h2><label>Bill Type</label><div class="bill-toggle"><button id="btnLocal" class="btn btn-outline active" onclick="setBillType('Local Bill')">Local Bill</button><button id="btnTax" class="btn btn-outline" onclick="setBillType('Tax Bill')">Tax Bill</button></div><div class="grid2"><div><label>Store Name</label><input id="storeName" placeholder="Ex: Bhatbhateni"></div><div><label>Category</label><select id="category"></select></div></div><div class="grid2"><div><label>Particular / Item</label><input id="particular" placeholder="Ex: Rice, vegetables, gas"></div><div><label>Amount (Rs)</label><input type="number" id="amount" placeholder="0.00"></div></div><label>Bill Photo</label><input type="file" id="fileInput" accept="image/*" capture="environment" class="hidden" onchange="processFile(event)"><div class="grid3"><button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">📷 Take Photo</button><button class="btn btn-scan" id="ocrBtn" onclick="runOfflineOCR()" disabled>Offline Scan</button><button class="btn btn-warn" id="smartBtn" onclick="runSmartScan()" disabled>Online Smart Scan</button></div><div id="scanPreview" class="scan-preview hidden"><img id="previewImg" src=""><div id="ocrStatus" class="status"></div></div><div class="warnbox" style="margin-top:10px">V3.5 rule: scanning only suggests data. Staff must review before saving, especially totals, VAT/PAN, and handwritten bills.</div><button class="btn btn-primary" style="margin-top:15px" onclick="submitPurchase()">Add Manual Purchase</button></div>
+  <div class="card"><h2>New Purchase</h2><label>Bill Type</label><div class="bill-toggle"><button id="btnLocal" class="btn btn-outline active" onclick="setBillType('Local Bill')">Local Bill</button><button id="btnTax" class="btn btn-outline" onclick="setBillType('Tax Bill')">Tax Bill</button></div><div class="grid2"><div><label>Store Name</label><input id="storeName" placeholder="Ex: Bhatbhateni"></div><div><label>Category</label><select id="category"></select></div></div><div class="grid2"><div><label>Particular / Item</label><input id="particular" placeholder="Ex: Rice, vegetables, gas"></div><div><label>Amount (Rs)</label><input type="number" id="amount" placeholder="0.00"></div></div><label>Bill Photo</label><input type="file" id="fileInput" accept="image/*" capture="environment" class="hidden" onchange="processFile(event)"><div class="grid2"><button class="btn btn-outline" onclick="document.getElementById('fileInput').click()">📷 Take Photo</button><button class="btn btn-scan" id="ocrBtn" onclick="runOfflineOCR()" disabled>Offline Scan + Straighten</button></div><div id="scanPreview" class="scan-preview hidden"><img id="previewImg" src=""><div id="ocrStatus" class="status"></div></div><div class="warnbox" style="margin-top:10px">V3.5.1 rule: Offline Scan straightens and enhances the bill first, then suggests data. Staff must review before saving, especially totals, VAT/PAN, and handwritten bills.</div><button class="btn btn-primary" style="margin-top:15px" onclick="submitPurchase()">Add Manual Purchase</button></div>
   <div id="reviewCard" class="card hidden"><h2>Smart Scan Review</h2><p class="muted">Review and correct extracted rows before adding to today’s report.</p><div id="confidenceBox" class="warnbox hidden"></div><div id="reviewRows"></div><div class="grid2"><button class="btn btn-primary" onclick="addReviewedRows()">Add Reviewed Rows</button><button class="btn btn-outline" onclick="clearReviewRows()">Cancel</button></div></div>
   <div class="card hidden" id="adminPanel"><h2>Admin: Manage Staff & PINs</h2><div id="staffListDisplay" class="muted" style="margin-bottom:12px"></div><label>Add New Staff</label><div class="grid2"><input id="newStaffName" placeholder="Staff Name"><input id="newStaffPin" placeholder="4-Digit PIN" maxlength="4" inputmode="numeric"></div><button class="btn btn-outline" style="margin-bottom:15px" onclick="addNewStaff()">+ Add Staff</button><label>Change Existing PIN</label><div class="grid2"><select id="pinChangeStaff"></select><input id="newPinUpdate" placeholder="New PIN" maxlength="4" inputmode="numeric"></div><button class="btn btn-outline" onclick="updateStaffPin()">Update PIN</button></div>
   <div class="card"><h2>Today's History</h2><div id="historyList"></div></div>
@@ -30,11 +30,108 @@ function handleLogin(){const user=loginStaff.value,pin=loginPin.value;if(staffDa
 function renderAdminTools(){const names=Object.keys(staffData);staffListDisplay.innerText='Current Staff: '+names.join(', ');pinChangeStaff.innerHTML=names.map(s=>`<option value="${s}">${s}</option>`).join('')}function addNewStaff(){const n=newStaffName.value.trim(),p=newStaffPin.value.trim();if(!n||!/^[0-9]{4}$/.test(p))return alert('Enter valid name and 4-digit PIN');staffData[n]={pin:p,admin:false};saveStaff();newStaffName.value='';newStaffPin.value='';renderAdminTools();renderLoginList();alert('Staff added')}function updateStaffPin(){const n=pinChangeStaff.value,p=newPinUpdate.value.trim();if(!/^[0-9]{4}$/.test(p))return alert('Enter 4-digit PIN');staffData[n].pin=p;saveStaff();newPinUpdate.value='';alert('PIN updated')}function saveStaff(){localStorage.setItem('ktr_staff_v35',JSON.stringify(staffData))}
 function setBillType(type){currentBillType=type;btnLocal.classList.toggle('active',type==='Local Bill');btnTax.classList.toggle('active',type==='Tax Bill')}
 async function compressImage(file,maxW=1400,quality=.72){return new Promise((resolve,reject)=>{const img=new Image(),r=new FileReader();r.onload=e=>{img.onload=()=>{const scale=Math.min(1,maxW/img.width),c=document.createElement('canvas');c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);const ctx=c.getContext('2d');ctx.drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',quality))};img.onerror=reject;img.src=e.target.result};r.onerror=reject;r.readAsDataURL(file)})}
-async function processFile(e){const f=e.target.files[0];if(!f)return;ocrStatus.innerText='Compressing photo...';tempImage=await compressImage(f);previewImg.src=tempImage;scanPreview.classList.remove('hidden');ocrBtn.disabled=false;smartBtn.disabled=false;ocrStatus.innerText='Photo ready. Choose Offline Scan or Online Smart Scan.'}
-function detectCategory(t){t=(t||'').toLowerCase();if(/rice|dal|oil|veg|vegetable|masala|आलु|चामल|दाल|तरकारी/.test(t))return'Kitchen';if(/water|jar|पानी/.test(t))return'Water';if(/meal|lunch|dinner|खाजा|खाना/.test(t))return'Staff Meal';if(/fuel|petrol|diesel|gas|lpg|ग्यास/.test(t))return'Fuel';if(/soap|clean|detergent|phenyl|साबुन/.test(t))return'Cleaning';if(/wire|bulb|electric|बत्ती/.test(t))return'Electricity';return'Other'}
-function smartAmountFromText(text){const lines=text.split(/\n+/).map(l=>l.trim()).filter(Boolean);const bad=/pan|vat|bill|invoice|phone|tel|mob|date|no\.?|number/i;const total=/grand\s*total|net\s*amount|total|payable|जम्मा|कुल|रकम/i;let candidates=[];for(const line of lines){const nums=(line.match(/\d{1,7}(?:\.\d{1,2})?/g)||[]).map(Number).filter(n=>n>0&&n<1000000);if(!nums.length)continue;let score=0;if(total.test(line))score+=5;if(bad.test(line))score-=3;if(/rs|npr|रु/.test(line.toLowerCase()))score+=1;for(const n of nums)candidates.push({n,score,line})}candidates=candidates.filter(c=>c.score>-2);if(!candidates.length)return null;candidates.sort((a,b)=>b.score-a.score||b.n-a.n);return candidates[0]}
-async function runOfflineOCR(){if(!tempImage)return;ocrStatus.innerText='Offline OCR reading...';try{const res=await Tesseract.recognize(tempImage,'eng+nep');const text=res.data.text||'';const amt=smartAmountFromText(text);if(amt){amount.value=amt.n;particular.value=particular.value||'Bill total';category.value=category.value==='Select...'?'Other':category.value;ocrStatus.innerText=`Suggested amount Rs. ${amt.n}. Please confirm before saving.`}else ocrStatus.innerText='Could not detect reliable amount. Please enter manually.'}catch(e){ocrStatus.innerText='Offline OCR failed. Please enter manually or use Online Smart Scan.'}}
-async function runSmartScan(){if(!tempImage)return;ocrStatus.innerText='Online Smart Scan reading bill...';smartBtn.disabled=true;try{const res=await fetch('/api/smart-scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:tempImage,defaultBillType:currentBillType})});if(!res.ok)throw new Error(await res.text());const data=await res.json();reviewData=(data.rows||[]).map((r,i)=>({date:r.date||todayKey(),store:r.store||data.store||'',item:r.item||r.particular||'Bill item',category:r.category||detectCategory(r.item),amount:Number(r.amount)||0,billType:r.billType||data.billType||currentBillType,confidence:Number(r.confidence)||Number(data.confidence)||.5,photo:tempImage,staff:currentUser,time:nowTime(),_id:'r'+Date.now()+i})).filter(r=>r.amount>0);if(!reviewData.length)throw new Error('No rows extracted');renderReviewRows(data.warning||'');ocrStatus.innerText='Smart Scan complete. Please review extracted rows.'}catch(e){ocrStatus.innerText='Online Smart Scan unavailable: '+e.message+'. You can still use Offline Scan/manual entry.'}finally{smartBtn.disabled=false}}
+async function processFile(e){
+  const f=e.target.files[0];
+  if(!f)return;
+  ocrStatus.innerText='Preparing and compressing photo...';
+  tempImage=await compressImage(f);
+  previewImg.src=tempImage;
+  scanPreview.classList.remove('hidden');
+  ocrBtn.disabled=false;
+  ocrStatus.innerText='Photo ready. Tap Offline Scan + Straighten.';
+}
+
+function loadImage(src){
+  return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src;});
+}
+
+function rotateCanvas(sourceCanvas, angleDeg, fill='white'){
+  const rad=angleDeg*Math.PI/180, sin=Math.abs(Math.sin(rad)), cos=Math.abs(Math.cos(rad));
+  const w=sourceCanvas.width, h=sourceCanvas.height;
+  const out=document.createElement('canvas');
+  out.width=Math.ceil(w*cos+h*sin); out.height=Math.ceil(w*sin+h*cos);
+  const ctx=out.getContext('2d');
+  ctx.fillStyle=fill; ctx.fillRect(0,0,out.width,out.height);
+  ctx.translate(out.width/2,out.height/2); ctx.rotate(rad); ctx.drawImage(sourceCanvas,-w/2,-h/2);
+  return out;
+}
+
+function projectionScore(canvas){
+  const ctx=canvas.getContext('2d');
+  const {width:w,height:h}=canvas;
+  const img=ctx.getImageData(0,0,w,h).data;
+  const rows=new Array(h).fill(0);
+  for(let y=0;y<h;y+=1){
+    let count=0;
+    for(let x=0;x<w;x+=2){
+      const i=(y*w+x)*4;
+      const gray=(img[i]+img[i+1]+img[i+2])/3;
+      if(gray<150) count++;
+    }
+    rows[y]=count;
+  }
+  const mean=rows.reduce((a,b)=>a+b,0)/rows.length;
+  return rows.reduce((s,v)=>s+(v-mean)*(v-mean),0)/rows.length;
+}
+
+async function deskewAndEnhance(dataUrl){
+  const img=await loadImage(dataUrl);
+  const max=900;
+  const scale=Math.min(1,max/Math.max(img.width,img.height));
+  const base=document.createElement('canvas');
+  base.width=Math.round(img.width*scale); base.height=Math.round(img.height*scale);
+  const bctx=base.getContext('2d');
+  bctx.drawImage(img,0,0,base.width,base.height);
+
+  // Estimate skew by testing small rotation angles and choosing the sharpest horizontal text-line projection.
+  let bestAngle=0, bestScore=-Infinity;
+  for(let a=-12;a<=12;a+=0.75){
+    const test=rotateCanvas(base,a);
+    const score=projectionScore(test);
+    if(score>bestScore){bestScore=score; bestAngle=a;}
+  }
+
+  const rotated=rotateCanvas(base,bestAngle);
+  const ctx=rotated.getContext('2d');
+  const data=ctx.getImageData(0,0,rotated.width,rotated.height);
+  const d=data.data;
+  for(let i=0;i<d.length;i+=4){
+    // grayscale + contrast boost + light threshold cleanup for better OCR
+    let g=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];
+    g=(g-128)*1.45+128;
+    if(g>218) g=255;
+    if(g<70) g=0;
+    g=Math.max(0,Math.min(255,g));
+    d[i]=d[i+1]=d[i+2]=g;
+  }
+  ctx.putImageData(data,0,0);
+  return {image:rotated.toDataURL('image/jpeg',0.86), angle:bestAngle};
+}
+
+async function runOfflineOCR(){
+  if(!tempImage)return;
+  ocrStatus.innerText='Straightening and enhancing bill photo...';
+  try{
+    const fixed=await deskewAndEnhance(tempImage);
+    tempImage=fixed.image;
+    previewImg.src=tempImage;
+    ocrStatus.innerText='Offline OCR reading enhanced bill...';
+    const res=await Tesseract.recognize(tempImage,'eng+nep');
+    const text=res.data.text||'';
+    const amt=smartAmountFromText(text);
+    if(amt){
+      amount.value=amt.n;
+      particular.value=particular.value||'Bill total';
+      category.value=category.value==='Select...'?'Other':category.value;
+      ocrStatus.innerText=`Suggested amount Rs. ${amt.n}. Photo straightened (${fixed.angle.toFixed(1)}°). Please confirm before saving.`;
+    } else {
+      ocrStatus.innerText=`Photo straightened (${fixed.angle.toFixed(1)}°), but no reliable amount found. Please enter manually.`;
+    }
+  }catch(e){
+    ocrStatus.innerText='Offline scan failed. Please enter manually.';
+  }
+}
+
 function renderReviewRows(warn){reviewCard.classList.remove('hidden');confidenceBox.classList.toggle('hidden',!warn);confidenceBox.innerText=warn||'';reviewRows.innerHTML=reviewData.map((r,i)=>`<div class="review-row"><div class="review-head"><span class="pill">${r.billType}</span><span class="${r.confidence>=.8?'conf-high':r.confidence>=.55?'conf-med':'conf-low'}">Confidence ${Math.round(r.confidence*100)}%</span></div><div class="grid2"><input value="${r.store}" onchange="reviewData[${i}].store=this.value" placeholder="Store"><input value="${r.date}" onchange="reviewData[${i}].date=this.value" placeholder="Date"></div><div class="grid2"><input value="${r.item}" onchange="reviewData[${i}].item=this.value;reviewData[${i}].category=detectCategory(this.value);renderReviewRows()" placeholder="Item"><input type="number" value="${r.amount}" onchange="reviewData[${i}].amount=Number(this.value)" placeholder="Amount"></div><div class="grid2"><select onchange="reviewData[${i}].category=this.value">${CATS.filter(c=>c!=='Select...').map(c=>`<option ${c===r.category?'selected':''}>${c}</option>`).join('')}</select><select onchange="reviewData[${i}].billType=this.value"><option ${r.billType==='Local Bill'?'selected':''}>Local Bill</option><option ${r.billType==='Tax Bill'?'selected':''}>Tax Bill</option></select></div><button class="btn btn-danger smallbtn" onclick="reviewData.splice(${i},1);renderReviewRows()">Remove Row</button></div>`).join('')}
 function clearReviewRows(){reviewData=[];reviewCard.classList.add('hidden');reviewRows.innerHTML=''}function addReviewedRows(){if(!reviewData.length)return alert('No rows to add');const tx=db.transaction(STORE_NAME,'readwrite'),os=tx.objectStore(STORE_NAME);reviewData.forEach(r=>os.add({store:r.store||'Unknown',particular:r.item,amount:Number(r.amount)||0,category:r.category||'Other',staff:currentUser,type:r.billType||currentBillType,photo:r.photo||tempImage,date:r.date||todayKey(),time:r.time||nowTime(),confidence:r.confidence,source:'Smart Scan'}));tx.oncomplete=()=>{clearReviewRows();resetForm();refreshUI();alert('Reviewed rows added')}} 
 function submitPurchase(){const store=storeName.value.trim(),part=particular.value.trim(),amt=Number(amount.value),cat=category.value;if(!store||!part||!amt||cat==='Select...')return alert('Please fill Store, Particular, Category, and Amount');const tx=db.transaction(STORE_NAME,'readwrite');tx.objectStore(STORE_NAME).add({store,particular:part,amount:amt,category:cat,staff:currentUser,type:currentBillType,photo:tempImage,date:todayKey(),time:nowTime(),confidence:1,source:'Manual'});tx.oncomplete=()=>{resetForm();refreshUI()}}
